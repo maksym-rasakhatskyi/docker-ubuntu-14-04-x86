@@ -23,6 +23,10 @@ RUN cd /usr/src/gmock/gtest/ && cmake . && make && cp -r include/gtest /usr/incl
 RUN cd /usr/src/gmock/ && cmake . && make && cp *.a /usr/lib
 
 RUN apt-get install -y git bison
+
+# boost 1.66.0
+RUN cd /tmp && wget --no-check-certificate http://sourceforge.net/projects/boost/files/boost/1.66.0/boost_1_66_0.tar.gz && tar zxvf boost_1_66_0.tar.gz && cd boost_1_66_0 && ./bootstrap.sh --with-icu --with-libraries=system,filesystem,thread,regex,locale,chrono,program_options,date_time,serialization --prefix=/opt/boost_1_66_0 && ./b2 && ./b2 --with-test --prefix=/opt/boost_1_66_0 install && cd -
+
 # liblightgrep
 RUN cd /tmp && git clone --recursive https://github.com/ligen-ua/liblightgrep.git && cd liblightgrep && autoreconf -fi && ./configure --with-boost-libdir=/usr/lib/i386-linux-gnu/ && make && make install
 
@@ -34,6 +38,3 @@ RUN apt-get install -y e2fslibs-dev
 
 # openssl 1.1.1
 RUN cd /tmp && wget --no-check-certificate https://www.openssl.org/source/openssl-1.1.1n.tar.gz && tar xf openssl-1.1.1n.tar.gz && cd openssl-1.1.1n && ./config && make && make install && cd .. && rm -rf openssl-1.1.1n && rm -f openssl-1.1.1n.tar.gz && ldconfig
-
-# boost 1.66.0
-RUN cd /tmp && wget --no-check-certificate http://sourceforge.net/projects/boost/files/boost/1.66.0/boost_1_66_0.tar.gz && tar zxvf boost_1_66_0.tar.gz && cd boost_1_66_0 && ./bootstrap.sh --with-icu --with-libraries=system,filesystem,thread,regex,locale,chrono,program_options,date_time,serialization --prefix=/opt/boost_1_66_0 && ./b2 && ./b2 --with-test --prefix=/opt/boost_1_66_0 install && cd -
