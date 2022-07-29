@@ -1,13 +1,13 @@
 # This docker file contains build environment
 FROM savoirfairelinux/ring-ubuntu32:14.04
 MAINTAINER maliy.sergey <maliy.sergey@apriorit.com>
-RUN apt-get update && apt-get install -y bison++ libssl-dev libxalan-c-dev libxerces-c-dev libprocps3-dev \
+RUN apt-get update && apt-get install -y bison++ libxalan-c-dev libxerces-c-dev libprocps3-dev \
 libnl-3-dev libcrypto++-dev libpcre++-dev uuid-dev libsnappy-dev build-essential libboost-all-dev cmake maven \
 libicu-dev zlib1g-dev liblog4cpp5-dev libncurses5-dev libselinux1-dev wget libsqlite3-dev \
 google-mock libvirt-dev libmysqlclient-dev qtbase5-dev qtdeclarative5-dev \
 libjpeg-turbo8-dev libnuma-dev automake autoconf autotools-dev libevent-dev thrift-compiler \
-libboost-dev libboost-test-dev libboost-program-options-dev libboost-filesystem-dev libboost-thread-dev libevent-dev \
-libtool flex pkg-config libssl-dev libblkid-dev \
+libevent-dev \
+libtool flex pkg-config libblkid-dev \
 giblib-dev libimlib2-dev libglib2.0-dev libgtk-3-dev libcanberra-gtk3-dev libpam0g-dev
 
 RUN cd /tmp && wget https://github.com/emcrisostomo/fswatch/releases/download/1.9.3/fswatch-1.9.3.tar.gz && tar xf fswatch-1.9.3.tar.gz && \
@@ -26,4 +26,5 @@ RUN apt-get install -y git bison
 # liblightgrep
 RUN cd /tmp && git clone --recursive https://github.com/ligen-ua/liblightgrep.git && cd liblightgrep && autoreconf -fi && ./configure --with-boost-libdir=/usr/lib/i386-linux-gnu/ && make && make install
 
-
+RUN cd /tmp && wget https://www.openssl.org/source/openssl-1.1.1n.tar.gz && tar xf openssl-1.1.1n.tar.gz && cd openssl-1.1.1n && ./config && make && make install && cd .. && rm -rf openssl-1.1.1n && rm -f openssl-1.1.1n.tar.gz && ldconfig
+RUN cd /tmp && wget http://sourceforge.net/projects/boost/files/boost/1.66.0/boost_1_66_0.tar.gz && tar zxvf boost_1_66_0.tar.gz && cd boost_1_66_0 && ./bootstrap.sh --with-icu --with-libraries=system,filesystem,thread,regex,locale,chrono,program_options,date_time,serialization --prefix=/opt/boost_1_66_0 && ./b2 && ./b2 --with-test --prefix=/opt/boost_1_66_0 install && cd -
