@@ -29,7 +29,7 @@ RUN apt remove cmake -y
 RUN cd /tmp && wget https://github.com/Kitware/CMake/releases/download/v3.14.5/cmake-3.14.5.tar.gz && tar xf cmake-3.14.5.tar.gz && cd /tmp/cmake-3.14.5 && ./bootstrap --prefix=/usr -- -DCMAKE_BUILD_TYPE:STRING=Release && make -j2 && make install && cd ../ && rm -rf cmake-3.14.5 && rm -rf cmake-3.14.5.tar.gz
 
 # boost 1.66.0
-RUN cd /tmp && wget --no-check-certificate http://sourceforge.net/projects/boost/files/boost/1.66.0/boost_1_66_0.tar.gz && tar zxvf boost_1_66_0.tar.gz && cd boost_1_66_0 && ./bootstrap.sh --with-icu --with-libraries=system,filesystem,thread,regex,locale,chrono,program_options,date_time,serialization --prefix=/opt/boost_1_66_0 && ./b2 && ./b2 --with-test --prefix=/opt/boost_1_66_0 install && cd -
+RUN cd /tmp && wget --no-check-certificate http://sourceforge.net/projects/boost/files/boost/1.66.0/boost_1_66_0.tar.gz && tar zxvf boost_1_66_0.tar.gz && cd boost_1_66_0 && ./bootstrap.sh --with-icu --with-libraries=system,filesystem,thread,regex,locale,chrono,program_options,date_time,serialization --prefix=/opt/boost_1_66_0 && ./b2 && ./b2 --with-test --with-date_time --with-system --with-filesystem --with-thread --with-regex --with-locale --with-program_options --with-chrono --prefix=/opt/boost_1_66_0 install && cd -
 
 # liblightgrep
 RUN cd /tmp && git clone --recursive https://github.com/ligen-ua/liblightgrep.git && cd liblightgrep && autoreconf -fi && ./configure --with-boost-libdir=/usr/lib/i386-linux-gnu/ && make && make install
