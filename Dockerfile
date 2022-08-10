@@ -6,7 +6,7 @@ libnl-3-dev libcrypto++-dev libpcre++-dev uuid-dev libsnappy-dev build-essential
 libicu-dev zlib1g-dev liblog4cpp5-dev libncurses5-dev libselinux1-dev wget libsqlite3-dev \
 google-mock libvirt-dev libmysqlclient-dev qtbase5-dev qtdeclarative5-dev \
 libjpeg-turbo8-dev libnuma-dev automake autoconf autotools-dev libevent-dev thrift-compiler \
-libevent-dev \
+libevent-dev python-dev g++ libbz2-dev \
 libtool flex pkg-config libssl-dev libblkid-dev \
 libc6 libc6-dev g++-multilib \
 giblib-dev libimlib2-dev libglib2.0-dev libgtk-3-dev libcanberra-gtk3-dev libpam0g-dev
