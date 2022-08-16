@@ -33,7 +33,7 @@ RUN cd /usr/src/gmock/ && cmake . && make && cp *.a /usr/lib
 RUN apt-get install -y git bison
 
 # liblightgrep
-RUN cd /tmp && git clone --recursive https://github.com/ligen-ua/liblightgrep.git && cd liblightgrep && autoreconf -fi && ./configure --with-boost-libdir=/usr/lib/x86_64-linux-gnu && make && make install
+RUN cd /tmp && git clone --recursive https://github.com/ligen-ua/liblightgrep.git && cd liblightgrep && autoreconf -fi && ./configure --with-boost-libdir=/usr/lib/i386-linux-gnu && make && make install
 
 # sqlite3
 RUN  cd /tmp && wget --no-check-certificate https://sqlite.org/src/tarball/version-3.31.1/sqlite.tar.gz && tar xf sqlite.tar.gz && cd sqlite && autoconf && ./configure && make && make install && cd .. && rm -rf sqlite sqlite.tar.gz
