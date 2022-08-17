@@ -42,5 +42,5 @@ RUN  cd /tmp && wget --no-check-certificate https://sqlite.org/src/tarball/versi
 RUN apt-get install -y e2fslibs-dev
 
 # openssl 1.1.1
-RUN cd /tmp && wget --no-check-certificate https://www.openssl.org/source/openssl-1.1.1n.tar.gz && tar xf openssl-1.1.1n.tar.gz && cd openssl-1.1.1n && ./config && make && make install && cd .. && rm -rf openssl-1.1.1n && rm -f openssl-1.1.1n.tar.gz && ldconfig
+RUN cd /tmp && wget --no-check-certificate https://www.openssl.org/source/openssl-1.1.1n.tar.gz && tar xf openssl-1.1.1n.tar.gz && cd openssl-1.1.1n && ./Configure linux-x86 && make && make install && cd .. && rm -rf openssl-1.1.1n && rm -f openssl-1.1.1n.tar.gz && ldconfig
 
