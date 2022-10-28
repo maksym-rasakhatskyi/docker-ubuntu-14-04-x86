@@ -7,24 +7,32 @@ libicu-dev zlib1g-dev liblog4cpp5-dev libncurses5-dev libselinux1-dev wget libsq
 google-mock libvirt-dev libmysqlclient-dev qtbase5-dev qtdeclarative5-dev \
 libjpeg-turbo8-dev libnuma-dev automake autoconf autotools-dev libevent-dev thrift-compiler \
 libevent-dev python-dev g++ libbz2-dev \
-libtool flex pkg-config libssl-dev libblkid-dev \
+libtool flex pkg-config libblkid-dev \
 libc6 libc6-dev g++-multilib \
 giblib-dev libimlib2-dev libglib2.0-dev libgtk-3-dev libcanberra-gtk3-dev libpam0g-dev
 
 # install cmake 3.14
 RUN apt remove cmake -y
-RUN cd /tmp && wget https://github.com/Kitware/CMake/releases/download/v3.14.5/cmake-3.14.5.tar.gz && tar xf cmake-3.14.5.tar.gz && cd /tmp/cmake-3.14.5 && ./bootstrap --prefix=/usr -- -DCMAKE_BUILD_TYPE:STRING=Release && make -j2 && make install && cd ../ && rm -rf cmake-3.14.5 && rm -rf cmake-3.14.5.tar.gz
+RUN cd /tmp && wget https://github.com/Kitware/CMake/releases/download/v3.14.5/cmake-3.14.5.tar.gz && tar xf cmake-3.14.5.tar.gz && cd /tmp/cmake-3.14.5 && \
+./bootstrap --prefix=/usr -- -DCMAKE_BUILD_TYPE:STRING=Release && make -j2 && make install && \
+cd ../ && rm -rf cmake-3.14.5 && rm -rf cmake-3.14.5.tar.gz
 
-# boost 1.66.0
-RUN cd /tmp && wget --no-check-certificate http://sourceforge.net/projects/boost/files/boost/1.66.0/boost_1_66_0.tar.gz && tar zxvf boost_1_66_0.tar.gz && cd boost_1_66_0 && \
-./bootstrap.sh --with-icu --libdir=/usr/lib/i386-linux-gnu --includedir=/usr/include && ./b2 && ./b2 install && cd - && ldconfig
+# openssl 3
+RUN cd /tmp && wget --no-check-certificate https://github.com/openssl/openssl/archive/refs/tags/openssl-3.0.5.tar.gz && tar xf openssl-3.0.5.tar.gz && cd openssl-openssl-3.0.5 && \
+./Configure linux-x86 && make && make install && \
+cd .. && rm -rf openssl-openssl-3.0.5 && rm -f openssl-3.0.5.tar.gz && ldconfig
+
+# boost 1.80.0
+RUN cd /tmp && wget --no-check-certificate http://sourceforge.net/projects/boost/files/boost/1.80.0/boost_1_80_0.tar.gz && tar zxvf boost_1_80_0.tar.gz && cd boost_1_80_0 && \
+./bootstrap.sh --with-icu --libdir=/usr/lib/i386-linux-gnu --includedir=/usr/include && ./b2 && ./b2 install && \
+cd - && rm -rf boost_1_80_0 && rm -f boost_1_80_0.tar.gz && ldconfig
 
 RUN cd /tmp && wget https://github.com/emcrisostomo/fswatch/releases/download/1.9.3/fswatch-1.9.3.tar.gz && tar xf fswatch-1.9.3.tar.gz && \
 cd fswatch-1.9.3 && ./configure && make install && cd ../ && rm -rf fswatch-1.9.3.tar.gz && rm -rf fswatch-1.9.3
 
-RUN cd /tmp && wget https://archive.apache.org/dist/thrift/0.9.3/thrift-0.9.3.tar.gz && tar xf thrift-0.9.3.tar.gz && cd thrift-0.9.3 && ./configure --without-qt4 --without-qt5 --without-java --without-ruby --disable-tests && make install && cd .. && rm -rf thrift-0.9.3 thrift-0.9.3.tar.gz
+RUN cd /tmp && wget https://archive.apache.org/dist/thrift/0.13.0/thrift-0.13.0.tar.gz && tar xf thrift-0.13.0.tar.gz && cd thrift-0.13.0 && ./configure --without-qt4 --without-qt5 --without-java --without-ruby --disable-tests && make install && cd .. && rm -rf thrift-0.13.0 thrift-0.13.0.tar.gz
 
-RUN  cd /tmp && wget http://nixos.org/releases/patchelf/patchelf-0.8/patchelf-0.8.tar.gz && tar xf patchelf-0.8.tar.gz && patchelf-0.8/configure && make install && rm -rf patchelf-0.8 && rm -f patchelf-0.8.tar.gz
+RUN  cd /tmp && wget --no-check-certificate http://nixos.org/releases/patchelf/patchelf-0.8/patchelf-0.8.tar.gz && tar xf patchelf-0.8.tar.gz && patchelf-0.8/configure && make install && rm -rf patchelf-0.8 && rm -f patchelf-0.8.tar.gz
 # Custom build of xalan-c lib
 RUN cd /tmp && apt-get source libxalan-c111 && cd ./xalan-1.11/c/ && export XALANCROOT=/tmp/xalan-1.11/c && ./runConfigure -p linux -c gcc -x g++ -d && make && cp -pr ./lib/lib* /usr/lib/i386-linux-gnu/
 
@@ -41,8 +49,3 @@ RUN  cd /tmp && wget --no-check-certificate https://sqlite.org/src/tarball/versi
 
 # ext2fs
 RUN apt-get install -y e2fslibs-dev
-
-# openssl 3
-RUN cd /tmp && wget --no-check-certificate https://github.com/openssl/openssl/archive/refs/tags/openssl-3.0.5.tar.gz && tar xf openssl-3.0.5.tar.gz && cd openssl-openssl-3.0.5 && \
-./Configure linux-x86 && make && make install && \
-cd .. && rm -rf openssl-openssl-3.0.5 && rm -f openssl-3.0.5.tar.gz && ldconfig
