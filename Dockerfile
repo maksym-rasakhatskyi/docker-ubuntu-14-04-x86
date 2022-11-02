@@ -49,5 +49,3 @@ RUN  cd /tmp && wget --no-check-certificate https://sqlite.org/src/tarball/versi
 
 # ext2fs
 RUN apt-get install -y e2fslibs-dev
-
-# fake commit to fool docker
