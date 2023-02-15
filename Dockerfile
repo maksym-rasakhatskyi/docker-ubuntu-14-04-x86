@@ -19,7 +19,7 @@ cd ../ && rm -rf cmake-3.14.5 && rm -rf cmake-3.14.5.tar.gz
 
 # openssl 3
 RUN cd /tmp && wget --no-check-certificate https://github.com/openssl/openssl/archive/refs/tags/openssl-3.0.5.tar.gz && tar xf openssl-3.0.5.tar.gz && cd openssl-openssl-3.0.5 && \
-./Configure linux-x86 && make && make install && \
+./Configure linux-x86 no-tls1_3 && make && make install && \
 cd .. && rm -rf openssl-openssl-3.0.5 && rm -f openssl-3.0.5.tar.gz && ldconfig
 
 # boost 1.80.0
